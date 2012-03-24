@@ -29,4 +29,43 @@ class FreshbooksClient
     request_token = OAuth::RequestToken.new(consumer, token, secret)
     @access_token = request_token.get_access_token(oauth_verifier: oauth_verifier)
   end
+
+  def get_invoices
+    response = parse_response(request("invoice.list"))
+    response.css("invoice").map do |invoice|
+      { id: invoice.css("invoice_id").text }
+    end
+  end
+
+  def get_invoice_pdf(id)
+    response = request("invoice.getPDF", invoice_id: id)
+    parse_response(response)
+    response
+  end
+
+private
+  def request(method, params={})
+    response = access_token.post(api_endpoint, build_xml(method, params))
+    raise APIError, "#{response.code}: #{response.body}" unless response.code == "200"
+    response.body
+  end
+
+  def parse_response(response)
+    response = Nokogiri.parse(response).css("response")
+    return if response.empty? # the response might not be xml
+    status, error = response.attr("status").text, response.css("error").text
+    raise APIError, error unless status == "ok"
+    response
+  end
+
+  def build_xml(method, params={})
+    xml = Builder::XmlMarkup.new
+    xml.request("method" => method) do |xml|
+      params.each { |key, value| xml.tag!(key, value) }
+    end
+  end
+
+  def api_endpoint
+    "https://#{account}.freshbooks.com/api/2.1/xml-in"
+  end
 end
