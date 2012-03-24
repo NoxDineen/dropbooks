@@ -55,7 +55,12 @@ class UsersController < ApplicationController
       dropbox_token: access_token.token,
       dropbox_secret: access_token.secret)
 
+    # fetch the dropbox account name
+    current_user.update_attributes(
+      :dropbox_name => current_user.dropbox_client.account_info["display_name"]
+    )
 
+    # go get invoices for this user
     current_user.sync_invoices_async
 
     redirect_to root_path
