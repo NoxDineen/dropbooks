@@ -55,6 +55,8 @@ class UsersController < ApplicationController
       dropbox_token: access_token.token,
       dropbox_secret: access_token.secret)
 
+    current_user.queue_job_to_fetch_initial_invoices
+
     redirect_to root_path
   end
 

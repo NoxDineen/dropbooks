@@ -2,7 +2,6 @@ require 'dropbooks'
 
 class User < ActiveRecord::Base
   before_create :set_token
-  after_create :queue_job_to_fetch_initial_invoices
 
   def freshbooks_authorized?
     freshbooks_token.present?
