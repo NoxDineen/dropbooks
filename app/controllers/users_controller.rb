@@ -73,7 +73,8 @@ class UsersController < ApplicationController
     when "invoice.create", "invoice.update"
       user = User.find_by_freshbooks_user_id(params[:user_id])
       if user
-        invoice = Invoice.new(user, id: params[:object_id])
+        attributes = user.freshbooks_client.get_invoice(params[:object_id])
+        invoice = Invoice.new(user, attributes)
         invoice.upload_to_dropbox
       end
     end
