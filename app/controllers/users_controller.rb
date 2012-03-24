@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_filter :require_freshbooks_authorization,
-    except: [ :freshbooks_authorize, :freshbooks_authorize_callback ]
+    except: [ :freshbooks_authorize, :freshbooks_authorize_callback, :freshbooks_callback ]
+
+  skip_before_filter :verify_authenticity_token, only: [ :freshbooks_callback ]
   
   def show
     respond_to do |format|
@@ -58,6 +60,15 @@ class UsersController < ApplicationController
     current_user.sync_invoices_async
 
     redirect_to root_path
+  end
+
+  def freshbooks_callback
+    case params[:name]
+    when "invoice.create"
+      # ...
+    when "invoice.update"
+      # ...
+    end
   end
 
 private

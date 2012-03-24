@@ -34,6 +34,11 @@ class FreshbooksClient
     @access_token = request_token.get_access_token(oauth_verifier: oauth_verifier)
   end
 
+  def get_current_staff
+    response = parse_response(request("staff.current"))
+    { id: response.css("staff_id").text }
+  end
+
   def get_invoices
     response = parse_response(request("invoice.list"))
     response.css("invoice").map do |invoice|

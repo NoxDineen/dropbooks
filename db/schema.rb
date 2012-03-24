@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324204808) do
+ActiveRecord::Schema.define(:version => 20120324221643) do
 
   create_table "users", :force => true do |t|
     t.string   "token",                                     :null => false
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20120324204808) do
     t.string   "dropbox_token"
     t.string   "dropbox_secret"
     t.string   "status",             :default => "running"
+    t.string   "freshbooks_user_id"
   end
 
 end

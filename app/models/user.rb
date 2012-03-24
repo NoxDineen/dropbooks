@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   before_create :set_token
+  before_create :set_freshbooks_user_id
 
   def freshbooks_authorized?
     freshbooks_token.present?
@@ -36,5 +37,10 @@ class User < ActiveRecord::Base
 private
   def set_token
     self.token = Dropbooks::Random.friendly_token
+  end
+
+  def set_freshbooks_user_id
+    user = freshbooks_client.get_current_staff
+    self.freshbooks_user_id = user[:id] if user
   end
 end
