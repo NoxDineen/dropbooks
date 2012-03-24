@@ -1,6 +1,14 @@
 class User < ActiveRecord::Base
   before_create :set_token
 
+  def freshbooks_authorized?
+    freshbooks_token.present?
+  end
+
+  def dropbox_authorized?
+    dropbox_token.present?
+  end
+
 private
   def set_token
     self.token = Dropbooks::Random.friendly_token

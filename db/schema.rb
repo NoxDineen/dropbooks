@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324165034) do
+ActiveRecord::Schema.define(:version => 20120324175412) do
 
   create_table "users", :force => true do |t|
     t.string   "token",              :null => false
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(:version => 20120324165034) do
     t.string   "freshbooks_secret"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.string   "dropbox_uid"
+    t.string   "dropbox_token"
+    t.string   "dropbox_secret"
   end
 
 end

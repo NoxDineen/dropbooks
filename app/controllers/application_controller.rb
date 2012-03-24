@@ -3,6 +3,16 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :current_user?
 
+  def require_freshbooks_authorization
+    redirect_to root_path unless current_user?
+  end
+
+  def require_dropbox_authorization
+    if current_user? and !current_user.dropbox_authorized?
+      redirect_to dropbox_authorize_path
+    end
+  end
+
   def current_user?
     !current_user.nil?
   end

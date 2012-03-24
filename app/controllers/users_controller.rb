@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
+  before_filter :require_freshbooks_authorization,
+    except: [ :freshbooks_authorize, :freshbooks_authorize_callback ]
+    
   def freshbooks_authorize
-    request_token = freshbooks_client.get_request_token(oauth_callback:
-      freshbooks_authorize_callback_url)
+    request_token = freshbooks_client.get_request_token(
+      oauth_callback: freshbooks_authorize_callback_url)
     session[:freshbooks_token] = request_token.token
     session[:freshbooks_secret] = request_token.secret
     session[:freshbooks_account] = params[:account]
@@ -24,9 +27,34 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def dropbox_authorize
+    request_token = dropbox_client.get_request_token
+    session[:dropbox_token] = request_token.token
+    session[:dropbox_secret] = request_token.secret
+    redirect_to request_token.authorize_url(
+      oauth_callback: dropbox_authorize_callback_url)
+  end
+
+  def dropbox_authorize_callback
+    access_token = dropbox_client.get_access_token(
+      session[:dropbox_token],
+      session[:dropbox_secret])
+
+    current_user.update_attributes(
+      dropbox_uid: params[:uid],
+      dropbox_token: access_token.token,
+      dropbox_secret: access_token.secret)
+
+    redirect_to root_path
+  end
+
 private
   def freshbooks_client
     @freshbooks_client ||= Dropbooks.create_freshbooks_client(freshbooks_account)
+  end
+
+  def dropbox_client
+    @dropbox_client ||= Dropbooks.create_dropbox_client
   end
 
   def freshbooks_account
