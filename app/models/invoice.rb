@@ -8,12 +8,12 @@ class Invoice
 
   def upload_to_dropbox
     file = File.open(download_from_freshbooks)
-    user.dropbox_client(content_host: true).upload(file, "#{attributes[:id]}.pdf", "")
+    user.dropbox_client(content_host: true).upload(file, "#{attributes[:number]}.pdf", "")
   end
 
   def download_from_freshbooks(&block)
     # save pdf of invoice /tmp
-    pdf_file = Rails.root.join("tmp/#{user.freshbooks_account}_#{attributes[:id]}.pdf")
+    pdf_file = Rails.root.join("tmp/#{user.freshbooks_account}_#{attributes[:number]}.pdf")
     File.open(pdf_file, "wb") do |f|
       f.write user.freshbooks_client.get_invoice_pdf(attributes[:id])
     end
