@@ -7,8 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="container">
+  <div class="header">
+    <p><span class="title">Dropbooks</span> = freshbooks + dropbox</p>
+  </div>
 
-<%= yield %>
+  <div class="content">
+    <%= yield %>
+  </div>
+</div>
 
 </body>
 </html>
