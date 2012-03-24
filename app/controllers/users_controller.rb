@@ -57,11 +57,6 @@ class UsersController < ApplicationController
       dropbox_token: access_token.token,
       dropbox_secret: access_token.secret)
 
-    # fetch the dropbox account name
-    current_user.update_attributes(
-      :dropbox_name => current_user.dropbox_client.account_info["display_name"]
-    )
-
     # go get invoices for this user
     current_user.sync_invoices_async
 
@@ -72,11 +67,14 @@ class UsersController < ApplicationController
     case params[:name]
     when "invoice.create", "invoice.update"
       user = User.find_by_freshbooks_user_id(params[:user_id])
-      if user
-        attributes = user.freshbooks_client.get_invoice(params[:object_id])
-        invoice = Invoice.new(user, attributes)
-        invoice.upload_to_dropbox
-      end
+      attributes = user.freshbooks_client.get_invoice(params[:object_id])
+      invoice = Invoice.new(user, attributes)
+      invoice.upload_to_dropbox
+    when "invoice.delete"
+      user = User.find_by_freshbooks_user_id(params[:user_id])
+      attributes = user.freshbooks_client.get_invoice(params[:object_id])
+      invoice = Invoice.new(user, attributes)
+      invoice.delete_from_dropbox
     end
     render status: :ok, nothing: true
   end
