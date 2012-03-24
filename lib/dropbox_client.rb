@@ -51,6 +51,13 @@ class DropboxClient
     end
   end
 
+  def delete_file(path)
+    @access_token.post("https://api.dropbox.com/1/fileops/delete", {
+      "root" => "sandbox",
+      "path" => path
+    })
+  end
+
 private
   def get(path)
     parse_response(access_token.get(path))
