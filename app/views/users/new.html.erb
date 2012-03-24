@@ -1,4 +1,4 @@
-<%= form_tag freshbooks_authorize_path do %>
-  <%= text_field_tag :account, "randomrules" %>.freshbooks.com
-  <%= submit_tag "Go" %>
+<%= form_tag freshbooks_authorize_path, :class => "freshbooks_account_form" do %>
+  <%= text_field_tag :account, "randomrules", :placeholder => "your account" %>.freshbooks.com
+  <%= submit_tag "Go", :class => "button" %>
 <% end %>
