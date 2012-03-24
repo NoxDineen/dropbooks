@@ -1,6 +1,8 @@
 require "oauth/signature/plaintext"
 
 class FreshbooksClient
+  class APIError < StandardError; end
+
   attr_reader :consumer, :access_token, :account
 
   def initialize(consumer_key, consumer_secret, account, token="", secret="")
