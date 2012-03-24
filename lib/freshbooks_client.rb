@@ -1,4 +1,6 @@
 require "oauth/signature/plaintext"
+require 'builder'
+require 'nokogiri'
 
 class FreshbooksClient
   class APIError < StandardError; end

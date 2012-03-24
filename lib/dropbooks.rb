@@ -24,6 +24,10 @@ module Dropbooks
     ENV["DROPBOX_SECRET"]
   end
 
+  def self.save_pdf_to_dropbox(pdf_file)
+    true
+  end
+
   def self.create_dropbox_client(token="", secret="")
     DropboxClient.new(self.dropbox_oauth_key, self.dropbox_oauth_secret, token, secret)
   end
