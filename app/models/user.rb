@@ -1,5 +1,3 @@
-require 'dropbooks'
-
 class User < ActiveRecord::Base
   before_create :set_token
 
@@ -27,7 +25,7 @@ class User < ActiveRecord::Base
     invoices.each { |invoice| invoice.upload_to_dropbox }
   end
 
-  def queue_job_to_sync_invoices
+  def sync_invoices_async
     Celluloid::Future.new { User.find(self.id).sync_invoices }
   end
 
