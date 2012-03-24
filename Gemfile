@@ -5,6 +5,8 @@ gem 'pg'
 gem 'oauth'
 gem 'rspec-rails', '>= 2.7.0', group: [ :development, :test ]
 gem 'multipart-post'
+gem 'nokogiri', '>= 1.5.2'
+gem 'celluloid'
 
 group :assets do
   gem 'uglifier', '>= 1.0.3'
