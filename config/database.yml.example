@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  database: dropbooks_development
+
+test:
+  adapter: postgresql
+  database: dropbooks_test
+
