@@ -1,7 +1,17 @@
 class UsersController < ApplicationController
   before_filter :require_freshbooks_authorization,
     except: [ :freshbooks_authorize, :freshbooks_authorize_callback ]
-    
+  
+  def show
+    respond_to do |format|
+      format.json {
+        render :json => {
+          :user => User.find(params[:id])
+        }
+      }
+    end
+  end
+
   def freshbooks_authorize
     request_token = freshbooks_client.get_request_token(
       oauth_callback: freshbooks_authorize_callback_url)

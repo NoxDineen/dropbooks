@@ -11,3 +11,21 @@
     <p>Dropbox name</p>
   </li>
 </ul>
+
+
+<div id="running" class="status">
+  <p>status</p>
+  <p class="time_ago">Running</p>
+</div>
+
+<div id="finished" class="status">
+  <p>synchronized at</p>
+  <p class="time_ago"></p>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    Dashboard.check(<%= current_user.id %>);
+  });
+</script>

@@ -20,6 +20,16 @@
     border: 1px solid #dedede;
   }
 }
-.service:first-child {
-
+.status {
+  display:none;
+  text-align:center;
+  p:first-child {
+    padding-top:20px;
+    letter-spacing:1px;
+    font-size:12px;
+  }
+  p:last-child {
+    font-size:80px;
+    letter-spacing:1px;
+  }
 }

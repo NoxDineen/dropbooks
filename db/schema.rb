@@ -11,18 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324175412) do
+ActiveRecord::Schema.define(:version => 20120324204808) do
 
   create_table "users", :force => true do |t|
-    t.string   "token",              :null => false
+    t.string   "token",                                     :null => false
     t.string   "freshbooks_account"
     t.string   "freshbooks_token"
     t.string   "freshbooks_secret"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "dropbox_uid"
     t.string   "dropbox_token"
     t.string   "dropbox_secret"
+    t.string   "status",             :default => "running"
   end
 
 end
