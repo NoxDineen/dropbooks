@@ -8,19 +8,20 @@
   </li>
   <li class="service">
     <div class="logo"><%= image_tag("dropbox.png", :style => "margin-top: 8px;") %></div>
-    <p>Dropbox name</p>
+    <p><%= current_user.dropbox_name %></p>
   </li>
 </ul>
 
 
 <div id="running" class="status">
   <p>status</p>
-  <p class="time_ago">Running</p>
+  <p class="large">Running</p>
 </div>
 
 <div id="finished" class="status">
-  <p>synchronized at</p>
-  <p class="time_ago"></p>
+  <p>synchronized</p>
+  <p class="large time_ago"></p>
+  <p>Saved <span class="how_many">0</span> Invoices</p>
 </div>
 
 

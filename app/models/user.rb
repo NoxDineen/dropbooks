@@ -23,7 +23,13 @@ class User < ActiveRecord::Base
   end
 
   def sync_invoices
-    invoices.each { |invoice| invoice.upload_to_dropbox }
+    invoices.each { |invoice|
+      invoice.upload_to_dropbox
+      increment(:total_number_of_invoices)
+    }
+    self.status = "finished"
+    self.last_updated_at = DateTime.now
+    save
   end
 
   def sync_invoices_async
@@ -31,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options.merge(:only => [:id, :status]))
+    super(options.merge(:only => [:id, :status, :total_number_of_invoices, :last_updated_at]))
   end
 
 private
