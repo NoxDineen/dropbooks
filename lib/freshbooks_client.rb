@@ -48,10 +48,8 @@ class FreshbooksClient
 
   def get_invoice(id)
     response = parse_response(request("invoice.get", invoice_id: id))
-    response.css("invoice").map do |invoice|
-      { id: invoice.css("invoice_id").text,
-        number: invoice.css("number").text }
-    end
+    { id: response.css("invoice_id").text,
+      number: response.css("number").text }
   end
 
   def get_invoice_pdf(id)
