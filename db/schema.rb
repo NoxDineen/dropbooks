@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20120324222203) do
     t.string   "status",                   :default => "running"
     t.datetime "last_updated_at"
     t.integer  "total_number_of_invoices", :default => 0
-    t.string   "freshbooks_user_id"
     t.string   "dropbox_name"
+    t.string   "freshbooks_user_id"
   end
 
 end
