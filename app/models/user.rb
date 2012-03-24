@@ -19,7 +19,9 @@ class User < ActiveRecord::Base
   end
 
   def invoices
-    freshbooks_client.get_invoices.collect { |attributes| Invoice.new(self, attributes) }
+    freshbooks_client.get_invoices.collect { |attributes|
+      Invoice.new(self, freshbooks_client.get_invoice(attributes[:id]))
+    }
   end
 
   def sync_invoices
