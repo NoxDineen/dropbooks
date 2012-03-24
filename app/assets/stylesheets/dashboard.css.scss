@@ -1,0 +1,25 @@
+.service, .arrow {
+  float:left;
+  text-align:center;
+}
+.arrow {
+  width:198px;
+}
+.service {
+  width:320px;
+  p {
+    margin-top:5px;
+    font-size:32px;
+    letter-spacing:1px;
+  }
+  .logo {
+    background-color:#fff;
+    height:95px;
+    border-radius:5px;
+    height:90px;
+    border: 1px solid #dedede;
+  }
+}
+.service:first-child {
+
+}

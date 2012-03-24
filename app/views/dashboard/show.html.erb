@@ -1,1 +1,13 @@
-Dashboard.
+<ul>
+  <li class="service">
+    <div class="logo"><%= image_tag("freshbooks.png") %></div>
+    <p><%= current_user.freshbooks_account %></p>
+  </li>
+  <li class="arrow">
+    <%= image_tag("arrow.png") %>
+  </li>
+  <li class="service">
+    <div class="logo"><%= image_tag("dropbox.png", :style => "margin-top: 8px;") %></div>
+    <p>Dropbox name</p>
+  </li>
+</ul>
