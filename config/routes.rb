@@ -4,6 +4,7 @@ Dropbooks::Application.routes.draw do
 
   get "dropbox/authorize", to: "users#dropbox_authorize"
   get "dropbox/authorize_callback", to: "users#dropbox_authorize_callback", as: :dropbox_authorize_callback
+  get "users/:id", to: "users#show"
 
   root to: "dashboard#show"
 end

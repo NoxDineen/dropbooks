@@ -2,7 +2,6 @@ require 'dropbooks'
 
 class User < ActiveRecord::Base
   before_create :set_token
-  after_create :queue_job_to_fetch_initial_invoices
 
   def freshbooks_authorized?
     freshbooks_token.present?
@@ -30,6 +29,10 @@ class User < ActiveRecord::Base
 
   def queue_job_to_sync_invoices
     Celluloid::Future.new { User.find(self.id).sync_invoices }
+  end
+
+  def as_json(options = {})
+    super(options.merge(:only => [:id, :status]))
   end
 
 private
