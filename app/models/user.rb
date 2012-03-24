@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
     dropbox_token.present?
   end
 
+  def dropbox_client(options={})
+    Dropbooks.create_dropbox_client(dropbox_token, dropbox_secret, options)
+  end
+
 private
   def set_token
     self.token = Dropbooks::Random.friendly_token

@@ -24,8 +24,8 @@ module Dropbooks
     ENV["DROPBOX_SECRET"]
   end
 
-  def self.create_dropbox_client(token="", secret="")
-    DropboxClient.new(self.dropbox_oauth_key, self.dropbox_oauth_secret, token, secret)
+  def self.create_dropbox_client(token="", secret="", options={})
+    DropboxClient.new(self.dropbox_oauth_key, self.dropbox_oauth_secret, token, secret, options)
   end
 
   def self.create_freshbooks_client(account, token="", secret="")
