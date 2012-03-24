@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def queue_job_to_fetch_initial_invoices
-    # queue to resque job to call save_initial_invoices
+    Celluloid::Future.new { User.find(self.id).save_initial_invoices }
   end
 
 private
