@@ -31,7 +31,6 @@ class User < ActiveRecord::Base
       increment(:total_number_of_invoices)
     }
     self.status = "finished"
-    self.last_updated_at = DateTime.now
     save
   end
 
@@ -40,7 +39,7 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options.merge(:only => [:id, :status, :total_number_of_invoices, :last_updated_at]))
+    super(options.merge(:only => [:id, :status, :total_number_of_invoices, :updated_at]))
   end
 
 private
