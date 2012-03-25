@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   before_create :set_token
   before_create :set_freshbooks_user_id
-  before_create :set_dropbox_name
+  #before_save :set_dropbox_name, if: :dropbox_token_changed?
 
   def freshbooks_authorized?
     freshbooks_token.present?
@@ -52,8 +52,9 @@ private
     self.freshbooks_user_id = user[:id] if user
   end
 
-  def set_dropbox_name
-    account = dropbox_client.account_info["display_name"]
-    self.dropbox_name = account["display_name"] if account
-  end
+  # def set_dropbox_name
+  #   return if dropbox_token.blank?
+  #   account = dropbox_client.account_info["display_name"]
+  #   self.dropbox_name = account["display_name"] if account
+  # end
 end
