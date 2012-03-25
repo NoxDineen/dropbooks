@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :invoices
+  has_many :invoices, dependent: :destroy
 
   before_create :set_token
   before_validation :set_freshbooks_user_id, on: :create
