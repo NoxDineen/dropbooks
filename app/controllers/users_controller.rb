@@ -60,10 +60,16 @@ class UsersController < ApplicationController
     case params[:name]
     when "invoice.create", "invoice.update"
       invoice = Invoice.find_by_freshbooks_id(params[:object_id])
-      invoice.try(:upload_to_dropbox)
+      if invoice
+        invoice.upload_to_dropbox
+        invoice.user.touch
+      end
     when "invoice.delete"
       invoice = Invoice.find_by_freshbooks_id(params[:object_id])
-      invoice.try(:delete_from_dropbox)
+      if invoice
+        invoice.delete_from_dropbox
+        invoice.user.touch
+      end
     end
     render status: :ok, nothing: true
   end
