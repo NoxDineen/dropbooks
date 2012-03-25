@@ -8,6 +8,7 @@ gem 'multipart-post'
 gem 'nokogiri', '>= 1.5.2'
 gem 'celluloid'
 gem 'jquery-rails', '>=2.0.1'
+gem 'jbuilder'
 
 group :assets do
   gem 'uglifier', '>= 1.0.3'

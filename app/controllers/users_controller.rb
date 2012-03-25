@@ -3,11 +3,8 @@ class UsersController < ApplicationController
   before_filter :require_freshbooks_authorization, except: [ 
     :freshbooks_authorize, :freshbooks_authorize_callback, :freshbooks_callback ]
 
-  respond_to :json, only: [ :show ]
-  
   def show
-    user = User.find(params[:id])
-    respond_with(user)
+    @user = User.find(params[:id])
   end
 
   def freshbooks_authorize
@@ -63,10 +60,10 @@ class UsersController < ApplicationController
     case params[:name]
     when "invoice.create", "invoice.update"
       invoice = Invoice.find_by_freshbooks_id(params[:object_id])
-      invoice.upload_to_dropbox
+      invoice.try(:upload_to_dropbox)
     when "invoice.delete"
       invoice = Invoice.find_by_freshbooks_id(params[:object_id])
-      invoice.delete_from_dropbox
+      invoice.try(:delete_from_dropbox)
     end
     render status: :ok, nothing: true
   end

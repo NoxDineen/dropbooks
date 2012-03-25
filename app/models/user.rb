@@ -41,10 +41,6 @@ class User < ActiveRecord::Base
     Celluloid::Future.new { User.find(self.id).sync_invoices }
   end
 
-  def as_json(options = {})
-    super(options.merge(:only => [:id, :status, :total_number_of_invoices, :updated_at]))
-  end
-
 private
   def set_token
     self.token = Dropbooks::Random.friendly_token
