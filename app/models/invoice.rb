@@ -1,6 +1,8 @@
 class Invoice < ActiveRecord::Base
   belongs_to :user
 
+  before_validation :strip_freshbooks_id, if: :freshbooks_id_changed?
+
   validates :freshbooks_id, presence: true
   validates :freshbooks_number, presence: true
 
@@ -23,5 +25,11 @@ class Invoice < ActiveRecord::Base
       f.write user.freshbooks_client.get_invoice_pdf(freshbooks_id)
     end
     path
+  end
+
+private
+  def strip_freshbooks_id
+    # remove leading 0's from id
+    self.freshbooks_id = freshbooks_id.sub(/^0*/, "")
   end
 end
