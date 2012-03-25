@@ -12,7 +12,7 @@ class Invoice
 
   def upload_to_dropbox
     file = File.open(download_from_freshbooks)
-    user.dropbox_client(content_host: true).upload(file, "/#{filename}", "")
+    user.dropbox_client(content_host: true).upload(file, filename, "")
   end
 
   def delete_from_dropbox
