@@ -1,13 +1,11 @@
-class Invoice
-  attr_reader :user, :attributes
+class Invoice < ActiveRecord::Base
+  belongs_to :user
 
-  def initialize(user, attributes)
-    @user = user
-    @attributes = attributes
-  end
+  validates :freshbooks_id, presence: true
+  validates :freshbooks_number, presence: true
 
   def filename
-    "#{attributes[:number]}.pdf"
+    "#{freshbooks_number}.pdf"
   end
 
   def upload_to_dropbox
@@ -20,9 +18,9 @@ class Invoice
   end
 
   def download_from_freshbooks(&block)
-    path = Rails.root.join("tmp/#{user.freshbooks_account}_#{filename}")
+    path = Rails.root.join("tmp", "#{user.freshbooks_account}_#{filename}")
     File.open(path, "wb") do |f|
-      f.write user.freshbooks_client.get_invoice_pdf(attributes[:id])
+      f.write user.freshbooks_client.get_invoice_pdf(freshbooks_id)
     end
     path
   end

@@ -1,17 +1,13 @@
 class UsersController < ApplicationController
-  before_filter :require_freshbooks_authorization,
-    except: [ :freshbooks_authorize, :freshbooks_authorize_callback, :freshbooks_callback ]
-
   skip_before_filter :verify_authenticity_token, only: [ :freshbooks_callback ]
+  before_filter :require_freshbooks_authorization, except: [ 
+    :freshbooks_authorize, :freshbooks_authorize_callback, :freshbooks_callback ]
+
+  respond_to :json, only: [ :show ]
   
   def show
-    respond_to do |format|
-      format.json {
-        render :json => {
-          :user => User.find(params[:id])
-        }
-      }
-    end
+    user = User.find(params[:id])
+    respond_with(user)
   end
 
   def freshbooks_authorize
@@ -57,9 +53,6 @@ class UsersController < ApplicationController
       dropbox_token: access_token.token,
       dropbox_secret: access_token.secret)
 
-    current_user.update_attribute(
-      :dropbox_name, current_user.dropbox_client.account_info["display_name"])
-
     # go get invoices for this user
     current_user.sync_invoices_async
 
@@ -69,14 +62,10 @@ class UsersController < ApplicationController
   def freshbooks_callback
     case params[:name]
     when "invoice.create", "invoice.update"
-      user = User.find_by_freshbooks_user_id(params[:user_id])
-      attributes = user.freshbooks_client.get_invoice(params[:object_id])
-      invoice = Invoice.new(user, attributes)
+      invoice = Invoice.find_by_freshbooks_id(params[:object_id])
       invoice.upload_to_dropbox
     when "invoice.delete"
-      user = User.find_by_freshbooks_user_id(params[:user_id])
-      attributes = user.freshbooks_client.get_invoice(params[:object_id])
-      invoice = Invoice.new(user, attributes)
+      invoice = Invoice.find_by_freshbooks_id(params[:object_id])
       invoice.delete_from_dropbox
     end
     render status: :ok, nothing: true

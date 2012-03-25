@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324234632) do
+ActiveRecord::Schema.define(:version => 20120325183939) do
+
+  create_table "invoices", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "freshbooks_number"
+    t.string   "freshbooks_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "token",                                           :null => false
@@ -25,8 +33,8 @@ ActiveRecord::Schema.define(:version => 20120324234632) do
     t.string   "dropbox_secret"
     t.string   "status",                   :default => "running"
     t.integer  "total_number_of_invoices", :default => 0
-    t.string   "dropbox_name"
     t.string   "freshbooks_user_id"
+    t.string   "dropbox_name"
   end
 
 end

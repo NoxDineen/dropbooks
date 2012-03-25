@@ -1,6 +1,6 @@
 require "oauth/signature/plaintext"
-require 'builder'
-require 'nokogiri'
+require "builder"
+require "nokogiri"
 
 class FreshbooksClient
   class APIError < StandardError; end
@@ -34,7 +34,7 @@ class FreshbooksClient
     @access_token = request_token.get_access_token(oauth_verifier: oauth_verifier)
   end
 
-  def get_current_staff
+  def get_current_user
     response = parse_response(request("staff.current"))
     { id: response.css("staff_id").text }
   end
