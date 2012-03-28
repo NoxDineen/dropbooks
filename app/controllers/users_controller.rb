@@ -58,7 +58,17 @@ class UsersController < ApplicationController
 
   def freshbooks_callback
     case params[:name]
-    when "invoice.create", "invoice.update"
+    when "invoice.create"
+      user = User.find_by_freshbooks_user_id(params[:user_id])
+      if user
+        attributes = user.freshbooks_client.get_invoice(params[:object_id])
+        invoice = user.invoices.create(
+          freshbooks_id: attributes[:id],
+          freshbooks_number: attributes[:number])
+        invoice.upload_to_dropbox
+        user.touch
+      end
+    when "invoice.update"
       invoice = Invoice.find_by_freshbooks_id(params[:object_id])
       if invoice
         invoice.upload_to_dropbox
