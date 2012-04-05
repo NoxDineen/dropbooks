@@ -28,10 +28,6 @@ module Dropbooks
     DropboxClient.new(self.dropbox_oauth_key, self.dropbox_oauth_secret, token, secret, options)
   end
 
-  def self.save_pdf_to_dropbox(pdf_file)
-    true
-  end
-
   def self.create_freshbooks_client(account, token="", secret="")
     FreshbooksClient.new(self.freshbooks_oauth_key, self.freshbooks_oauth_secret, account, token, secret)
   end
